@@ -5,9 +5,7 @@ const PORT = 5000;
 
 async function main(): Promise<void> {
   try {
-    await mongoose.connect(
-      "mongodb+srv://faisalchy64:ZzW1ZTkvYdF91WfC@library-management.fvt16an.mongodb.net/?retryWrites=true&w=majority&appName=Library-Management"
-    );
+    await mongoose.connect("mongodb://localhost:27017/library-management");
     console.log("Database connected successfully...");
     app.listen(PORT, () => console.log(`Listening to port ${PORT}`));
   } catch (error) {

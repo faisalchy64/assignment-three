@@ -34,7 +34,7 @@ const bookSchema = new mongoose.Schema<IBook>(
     copies: {
       type: Number,
       required: [true, "Copies is required."],
-      min: [1, "Copies must be at least 1."],
+      min: [0, "Copies must be a positive number."],
     },
     available: {
       type: Boolean,

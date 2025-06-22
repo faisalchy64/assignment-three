@@ -25,7 +25,7 @@ bookRouter.get("/books/:bookId", (req: Request, res: Response) => {
 });
 
 // PUT /api/books/:bookId
-bookRouter.patch("/books/:bookId", (req: Request, res: Response) => {
+bookRouter.put("/books/:bookId", (req: Request, res: Response) => {
   updateBook(req, res);
 });
 

@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import bookRouter from "./routes/bookRoute";
+import borrowRouter from "./routes/borrowRoute";
 
 const app: Application = express();
 
@@ -13,5 +14,21 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api", bookRouter);
+
+app.use("/api", borrowRouter);
+
+app.use((req: Request, res: Response) => {
+  res.status(404).send({
+    message: "Resource not found.",
+    success: false,
+    error: {
+      name: "NotFoundError",
+      errors: {
+        name: "NotFoundError",
+        message: "Resource not found.",
+      },
+    },
+  });
+});
 
 export default app;

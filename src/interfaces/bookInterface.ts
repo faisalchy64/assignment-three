@@ -14,6 +14,7 @@ interface IBook {
   description: string;
   copies: number;
   available: boolean;
+  checkAvailability(quantity: number): void;
 }
 
 export default IBook;

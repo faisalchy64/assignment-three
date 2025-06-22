@@ -8,7 +8,7 @@ export const createBook = async (req: Request, res: Response) => {
 
     res.status(201).send({
       success: true,
-      message: "Book created successfully",
+      message: "Book created successfully.",
       data,
     });
   } catch (error) {
@@ -112,26 +112,51 @@ export const getBookById = async (req: Request, res: Response) => {
 
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const { bookId } = req.params;
-    const data = await Book.findByIdAndUpdate(bookId, req.body, { new: true });
+    if (typeof req.body.copies === "number") {
+      const data = await Book.findById(req.params.bookId);
 
-    if (data) {
-      return res.status(200).send({
-        success: true,
-        message: "Book updated successfully.",
-        data,
+      if (data) {
+        data.copies += req.body.copies;
+        await data.save();
+
+        return res.status(200).send({
+          success: true,
+          message: "Book updated successfully.",
+          data,
+        });
+      }
+
+      return res.status(404).send({
+        message: "Book not found.",
+        success: false,
+        error: {
+          name: "NotFoundError",
+          errors: { name: "NotFoundError", message: "Book not found." },
+        },
       });
     }
 
-    res.status(404).send({
-      message: "Book not found.",
+    res.status(400).send({
+      message: "Validation failed.",
       success: false,
       error: {
-        name: "NotFoundError",
-        errors: { name: "NotFoundError", message: "Book not found." },
+        name: "ValidationError",
+        errors: {
+          name: "ValidationError",
+          message: "Copies must be a positive number.",
+        },
       },
     });
   } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      const { name, errors } = error;
+      return res.status(400).send({
+        message: "Validation failed",
+        success: false,
+        error: { name, errors },
+      });
+    }
+
     if (error instanceof Error) {
       const { message, name } = error;
 

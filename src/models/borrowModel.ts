@@ -5,13 +5,13 @@ const borrowSchema = new mongoose.Schema<IBorrow>(
   {
     book: {
       type: mongoose.Schema.Types.ObjectId,
-      required: [true, "Book-Id is required."],
+      required: [true, "Book is required."],
       ref: "Book",
     },
     quantity: {
       type: Number,
       required: [true, "Quantity is required."],
-      min: [1, "Quantity must be at least 1."],
+      min: [1, "Quantity must be a positive number."],
     },
     dueDate: {
       type: Date,

@@ -2,6 +2,12 @@
 
 ## Library Management System with Express, TypeScript & MongoDB
 
+### Features and functionalities
+
+- Implement CRUD (Create, Read, Update, Delete) operation functionalities.
+- Use MongoDB Aggregation Pipeline to perform optimize request query.
+- Implement advance business logic.
+
 ### To run this project on your machine, follow the instructions below:
 
 First, open a terminal and run the command.

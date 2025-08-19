@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from "express";
+import cors from "cors";
 import bookRouter from "./routes/bookRoute";
 import borrowRouter from "./routes/borrowRoute";
 
@@ -8,6 +9,7 @@ const app: Application = express();
 app.use(express.json());
 // Middleware to parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
   res.send({ status: 200, message: "Library Management Application." });

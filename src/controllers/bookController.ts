@@ -46,11 +46,9 @@ export const getAllBooks = async (req: Request, res: Response) => {
       query.genre = { $eq: filter };
     }
 
-    const data = await Book.find(query)
-      .sort({
-        [sortBy as string]: sortOrder,
-      })
-      .limit(parseInt(limit as string));
+    const data = await Book.find(query).sort({
+      [sortBy as string]: sortOrder,
+    });
 
     res.status(200).send({
       success: true,
@@ -113,12 +111,20 @@ export const getBookById = async (req: Request, res: Response) => {
 export const updateBook = async (req: Request, res: Response) => {
   try {
     if (typeof req.body.copies === "number") {
-      const data = await Book.findById(req.params.bookId);
+      const book = await Book.findById(req.params.bookId);
+      const data = await Book.findByIdAndUpdate(
+        req.params.bookId,
+        {
+          ...req.body,
+          copies: req.body.copies > 0 ? book?.copies + req.body.copies : 0,
+          available: req.body.copies > 0 ? true : false,
+        },
+        {
+          new: true,
+        }
+      );
 
       if (data) {
-        data.copies += req.body.copies;
-        await data.save();
-
         return res.status(200).send({
           success: true,
           message: "Book updated successfully.",
